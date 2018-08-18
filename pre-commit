@@ -3,29 +3,18 @@ if git rev-parse --verify HEAD >/dev/null 2>&1
 then
 	against=HEAD
 else
-	# Initial commit: diff against an empty tree object
 	against=4b825dc642cb6eb9a060e54bf8d69288fbee4904
 fi
 
-# Defined set of keywords which need be removed. 
-# In this example, it assumed that it's a javascript project. Therefore only console.log
-# and debugger need to be removed. 
-# if it is a php project then you might remove syntaxes like print, print_r, echo etc
-# and also added <<<<<<<|=======|>>>>>>> to prevent conflict files from commit 
-
-# Note : when using pipe (|) character in shell script, make sure to add backslash (\) infront of it
 DIRTY_SYNTAX="console\|debugger\|<<<<<<<|=======|>>>>>>>"
 
-# read all the changed file and iterate whith a do loop
 git diff-index --name-status --cached $against -- | cut -c3- | while read FILE; do
 
 
 if [[ -f $FILE ]]; then
-	#Check whether the file contain defined syntaxed with grap command
 	if grep -w $DIRTY_SYNTAX $FILE;
 	then
 		echo $FILE ' contains debugger or console log!'
-		# set exit = 1 to terminate the commit. else set 0 to continue
 		exit 1
 	fi
 fi
