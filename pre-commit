@@ -10,7 +10,6 @@ DIRTY_SYNTAX="console\|debugger\|<<<<<<<|=======|>>>>>>>"
 
 git diff-index --name-status --cached $against -- | cut -c3- | while read FILE; do
 
-
 if [[ -f $FILE ]]; then
 	if grep -w $DIRTY_SYNTAX $FILE;
 	then
@@ -18,4 +17,5 @@ if [[ -f $FILE ]]; then
 		exit 1
 	fi
 fi
+
 done || exit $?
