@@ -1,0 +1,9 @@
+#!/bin/sh
+# regex pattern for standard message
+message_format='^\ABC-[0-9]{4}'
+
+if ! grep -iqE "$message_format" "$1"; then
+    echo "Error: commit message should follow the pattern of ABC-1234 commit message"
+	# set exit to 1 will terminate the commit 
+    exit 1
+fi
